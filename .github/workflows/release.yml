@@ -1,0 +1,31 @@
+# Builds PadDesk.exe on Windows and publishes it as a GitHub release.
+# Runs when the VERSION file changes on main (or by hand from the Actions tab).
+name: release
+on:
+  push:
+    branches: [main]
+    paths: [VERSION, PadDesk.cs]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build PadDesk.exe
+        shell: cmd
+        run: |
+          "%WINDIR%\Microsoft.NET\Framework64\v4.0.30319\csc.exe" /nologo /target:winexe /optimize+ /out:PadDesk.exe /r:System.Windows.Forms.dll /r:System.Drawing.dll PadDesk.cs
+      - name: Checksum
+        shell: pwsh
+        run: (Get-FileHash PadDesk.exe -Algorithm SHA256).Hash.ToLower() + "  PadDesk.exe" | Out-File -Encoding ascii PadDesk.exe.sha256
+      - name: Publish
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $v = (Get-Content VERSION -Raw).Trim()
+          gh release view "v$v" 2>$null
+          if ($LASTEXITCODE -eq 0) { gh release upload "v$v" PadDesk.exe PadDesk.exe.sha256 --clobber }
+          else { gh release create "v$v" PadDesk.exe PadDesk.exe.sha256 --title "PadDesk $v" --notes "Download **PadDesk.exe** and run it. No install needed. It sits in the notification area (bottom right, by the clock)." }
