@@ -19,13 +19,13 @@ Download **PadDesk.exe** from the [latest release](https://github.com/paperwolf2
 | X | Middle-click (hold to drag) |
 | Right stick | Scroll up, down, left and right |
 | Y | Open or close the keyboard |
-| Hold View + Menu (1 second) | Turn PadDesk on or off for the app you're in. It remembers. |
+| Hold D-pad Down + RB (1 second) | Turn PadDesk on or off for the app you're in. It remembers. |
 
 **On the keyboard:** D-pad picks a key, A types, B deletes, X adds a space, Y closes. LB is Shift, RB moves the keyboard to the other edge of the screen, and pressing the right stick hides or shows the typing preview.
 
 ## Stays out of the way in games
 
-PadDesk turns itself off in emulators, controller-driven frontends and most fullscreen games, so they never get stray clicks. It stays on in browsers and video players. You can set any app to Automatic, Always on or Always off from the tray menu.
+PadDesk turns itself off automatically in Spine, emulators, controller-driven frontends, Steam Big Picture, detected PC games (windowed or fullscreen — including Steam, Epic, GOG, Xbox/Game Pass, Unreal/Unity, and controller-using games), and unknown fullscreen apps, so games get clean controller input instead of mouse clicks. It stays on in browsers, video players, and desktop apps. You can set any app to Automatic, Always on or Always off from the tray menu, or hold D-pad Down + RB for 1 second.
 
 Settings are kept in `%APPDATA%\PadDesk\settings.ini`. Other programs can add their own rules as text files in `%APPDATA%\PadDesk\lists\`, one rule per line, like `off myemulator` or `on mybrowser`. A `*` at the end matches every name starting with it (`pcsx2* = off`).
 
